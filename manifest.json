@@ -3,13 +3,13 @@
     "version": "0.1.0",
     "description": "More than A Bookmark",
     "permissions": ["storage", "tabs","scripting","activeTab"],
-    "host_permissions": ["https://*.youtube.com/*","https://*.twitter.com/*","https://*.linkedin.com/*"],
+    "host_permissions": ["https://*.youtube.com/*","https://*.twitter.com/*","https://*.linkedin.com/*","https://discord.com/*","https://github.com/*","https://web.whatsapp.com/"],
     "background": {
       "service_worker": "background.js"
     },
     "content_scripts": [
       {
-        "matches": ["https://*.youtube.com/*","https://*.twitter.com/*","https://*.linkedin.com/*"],
+        "matches": ["https://*.youtube.com/*","https://*.twitter.com/*","https://*.linkedin.com/*","https://discord.com/*","https://github.com/*","https://web.whatsapp.com/"],
         "js": ["contentScript.js"]
       }
     ],
@@ -18,7 +18,7 @@
         "resources": [
             "assets/bookmark.png"
           ],
-        "matches": ["https://*.youtube.com/*","https://*.twitter.com/*","https://*.linkedin.com/*"]
+        "matches": ["https://*.youtube.com/*","https://*.twitter.com/*","https://*.linkedin.com/*","https://discord.com/*","https://github.com/*","https://web.whatsapp.com/*"]
       }
     ],
     "action": {
