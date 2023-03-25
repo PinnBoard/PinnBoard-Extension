@@ -63,14 +63,27 @@ const newVideLoaded = () => {
 };
 
 
-// Input Event Fire
-// 1.Twitter
-const twittInputHandler = (ele,textToBeReplaced) =>{;
-  const wrapper = ele.querySelector('[data-text="true"]')?.parentNode;
-  wrapper.innerHTML = `<span data-text="true">${textToBeReplaced}</span>`
-  wrapper.dispatchEvent(new Event("input",{'bubbles':true,cancelable:"true"}));
+const innerChildFinder = (ele) =>{
+  let textParent=null;
+  let elee=ele;
+  
+  while((elee.firstChild)!==null){
+    textParent=elee;
+    elee=elee.firstChild;
+  }
+  return textParent
 }
 
+// Input Event Fire
+// 1.Twitter
+const twittInputHandler = (ele,textToBeReplaced) =>{
+  let textParent=innerChildFinder(ele);
+  const wrapper = textParent?.parentNode;
+  textParent.innerText = textToBeReplaced
+  console.log(textParent)
+  wrapper.innerHTML = textParent.innerHTML
+  wrapper.dispatchEvent(new Event("input",{'bubbles':true,cancelable:"true"}));
+}
 // 2.LinkedIn
 const linkedinInputHandler = (ele,textToBeReplaced) => {
   const wrapper = ele;
@@ -81,27 +94,57 @@ const linkedinInputHandler = (ele,textToBeReplaced) => {
 
 // 3. Youtube
 const youtubeHandler = (ele,textToBeReplaced) => {
-  ele.value=textToBeReplaced;
+  console.log(ele)
+  if(ele.tagName === "INPUT" )ele.value=textToBeReplaced;
+  else{
+    const textParent = innerChildFinder(ele);
+    textParent.innerText = textToBeReplaced;
+  }
 }
 
 
+// 4. GitHub
+const gitHubHandler  = (ele,textToBeReplaced) => {
+  ele.value=textToBeReplaced
+}
+
+
+
+
 // Genral function 
+
+// const commandReplacer = (ele,textToBeReplaced) =>{
+//   let textParent=innerChildFinder(ele);
+//   const wrapper = textParent?.parentNode;
+//   textParent.innerText = textToBeReplaced
+//   const div = document.createElement("div");
+//   div.appendChild(textParent);
+//   console.log(div.innerHTML)
+//   wrapper.innerHTML = div.innerHTML;
+//   console.log(wrapper);
+//   wrapper.dispatchEvent(new Event("input",{'bubbles':true,cancelable:true}));
+// }
 
 const urlToFunctionMapper = {
   "https://www.linkedin.com/" : linkedinInputHandler,
   "https://twitter.com/" : twittInputHandler,
   "https://www.youtube.com/" : youtubeHandler,
+  "https://github.com/":gitHubHandler,
 }
 
 
 window.onkeyup=(e)=>{
   // Genral way to grab the text from a element
+  console.log(e.target.innerText);
   let command  = e.target.value || e.target.innerText;
   //Command check
-  if(command === "/share"){
+  console.log(command)
+  if(command.includes("/share")){
+    console.log("hello")
     // api call to our API to get the result accoding to the command
     const funct=urlToFunctionMapper[globalURL];
-    funct(e.target,"Share twitt");
+    // commandReplacer(e.target,"Share twitt");
+    funct(e.target,"Example")
   }
 }
 
