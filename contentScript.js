@@ -1,4 +1,13 @@
-// const btn=document.getElementById("segmented-like-button")
+// global url
+let  globalURL;
+
+const globalURLSetter = () =>{
+  globalURL=window.location.href.split(".com")[0]+".com/";
+  console.log(globalURL)
+}
+globalURLSetter();
+
+
 
 const newYoutubeProfileLoaded = () => {
   const youtubeBtnControls = document.querySelector(
@@ -53,6 +62,48 @@ const newVideLoaded = () => {
   // bookmarkBtn.addEventListener("click",()=> addEventListener(videoLink));
 };
 
+
+// Input Event Fire
+// 1.Twitter
+const twittInputHandler = (ele,textToBeReplaced) =>{;
+  const wrapper = ele.querySelector('[data-text="true"]')?.parentNode;
+  wrapper.innerHTML = `<span data-text="true">${textToBeReplaced}</span>`
+  wrapper.dispatchEvent(new Event("input",{'bubbles':true,cancelable:"true"}));
+}
+
+// 2.LinkedIn
+const linkedinInputHandler = (ele,textToBeReplaced) => {
+  const wrapper = ele;
+  wrapper.innerHTML = `<p>${textToBeReplaced}</p>`
+  wrapper.dispatchEvent(new Event("input",{'bubbles':true,cancelable:"true"}))
+}
+
+
+// 3. Youtube
+const youtubeHandler = (ele,textToBeReplaced) => {
+  ele.value=textToBeReplaced;
+}
+
+
+// Genral function 
+
+const urlToFunctionMapper = {
+  "https://www.linkedin.com/" : linkedinInputHandler,
+  "https://twitter.com/" : twittInputHandler,
+  "https://www.youtube.com/" : youtubeHandler,
+}
+
+
+window.onkeyup=(e)=>{
+  // Genral way to grab the text from a element
+  let command  = e.target.value || e.target.innerText;
+  //Command check
+  if(command === "/share"){
+    // api call to our API to get the result accoding to the command
+    const funct=urlToFunctionMapper[globalURL];
+    funct(e.target,"Share twitt");
+  }
+}
 
 
 // Message Listers
