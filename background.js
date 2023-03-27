@@ -33,13 +33,31 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
         }
       );
     }
+    if (activeTab.url && (/(https:\/\/twitter.com\/(?![a-zA-Z0-9_]+\/)([a-zA-Z0-9_]+))/).test(activeTab.url)) {
+      const queryParameters = activeTab.url;
+      const urlParameters = new URLSearchParams(queryParameters);
+      console.log(activeTab.url);
+      console.log("Tweet")
+      chrome.tabs.sendMessage(
+        activeTab.id,
+        {
+          type: "NEW_TWITTER_PROFILE",
+          videoId: urlParameters.get("v"),
+          videoLink: activeTab.url,
+        },
+        (res) => {
+          console.log(res);
+        }
+      );
+    }
   }
   //For profile
   
   
   );
 
-  // 2. LinkedIn functions
+  // 2. Twitter Functions
+  
+  // 3. LinkedIn functions
 
-  // 3. Twitter Functions
 });
