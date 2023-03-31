@@ -81,10 +81,6 @@ function addBookmark() {
     console.log(twitterBookmark)
     parentElement.insertBefore(bookmarkBtn, twitterBookmark)
     str = document.getElementsByClassName('css-901oao r-1nao33i r-37j5jr r-1inkyih r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0')[0].innerText
-
-
-
-
   }
 }
 async function go() {
@@ -121,9 +117,9 @@ chrome.runtime.onMessage.addListener((obj, sender, response) => {
   if (type === "NEW_YOUTUBE_PROFILE") {
     newYoutubeProfileLoaded();
   }
-  if (name === 'tweet') {
+  if (type === 'TWEET') {
     console.log('recieving');
-     wait(500);
+    wait(500);
     addBookmark();
   }
   response({ message: "Connection Established" });

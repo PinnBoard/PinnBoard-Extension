@@ -38,7 +38,7 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
      if(tab.url && tab.url.includes('/status/')){
       console.log('sending to tweet: ', tab.url)
       chrome.tabs.sendMessage(tabId, {
-        type: "Tweet", 
+        type: "TWEET", 
         name: 'tweet',
         tweetLink: tab.url,
       })
