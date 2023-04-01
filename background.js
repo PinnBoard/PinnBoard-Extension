@@ -31,7 +31,28 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
         (res) => {
           console.log(res);
         }
-      );
+      )
+    }
+    if(tab.url && tab.url.includes('linkedin.com/in/')){
+      console.log('sending to Profile: ', tab.url);
+      chrome.tabs.sendMessage(tabId,{
+        type: 'Profile',
+        name: 'Profile',
+      })
+    }
+    else if(tab.url && tab.url.includes('linkedin.com/groups/')){
+      console.log('sending to Profile: ', tab.url);
+      chrome.tabs.sendMessage(tabId,{
+        type: 'Profile',
+        name: 'Profile',
+      })
+    }
+    else if(tab.url && tab.url.includes('linkedin.com/company')){
+      console.log('sending to Profile: ', tab.url);
+      chrome.tabs.sendMessage(tabId,{
+        type: 'Profile',
+        name: 'Profile',
+      })
     }
     if (activeTab.url && (/(https:\/\/twitter.com\/(?![a-zA-Z0-9_]+\/)([a-zA-Z0-9_]+))/).test(activeTab.url)) {
       const queryParameters = activeTab.url;
