@@ -13,6 +13,7 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
           type: "NEW_YOUTUBE",
           videoId: urlParameters.get("v"),
           videoLink: activeTab.url,
+          url: tab.url,
         },
         (res) => {
           console.log(res);
@@ -20,13 +21,14 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
       );
     }
     // For profile visit
-    else{
+    if(activeTab.url && activeTab.url.includes('youtube.com/@')){
       chrome.tabs.sendMessage(
         activeTab.id,
         {
           type: "NEW_YOUTUBE_PROFILE",
           videoId: "@"+activeTab.url.split("/")[0],
           videoLink: activeTab.url,
+          url: tab.url,
         },
         (res) => {
           console.log(res);
@@ -38,6 +40,7 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
       chrome.tabs.sendMessage(tabId,{
         type: 'Profile',
         name: 'Profile',
+        url: tab.url,
       })
     }
     else if(tab.url && tab.url.includes('linkedin.com/groups/')){
@@ -45,6 +48,7 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
       chrome.tabs.sendMessage(tabId,{
         type: 'Profile',
         name: 'Profile',
+        url: tab.url,
       })
     }
     else if(tab.url && tab.url.includes('linkedin.com/company')){
@@ -52,6 +56,7 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
       chrome.tabs.sendMessage(tabId,{
         type: 'Profile',
         name: 'Profile',
+        url: tab.url,
       })
     }
     if (activeTab.url && (/(https:\/\/twitter.com\/(?![a-zA-Z0-9_]+\/)([a-zA-Z0-9_]+))/).test(activeTab.url)) {
@@ -65,6 +70,7 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
           type: "NEW_TWITTER_PROFILE",
           videoId: urlParameters.get("v"),
           videoLink: activeTab.url,
+          url: tab.url,
         },
         (res) => {
           console.log(res);
@@ -79,6 +85,18 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
         type: "TWEET", 
         name: 'tweet',
         tweetLink: tab.url,
+        url: tab.url
+      })
+    }
+
+    //LinkedIn Feed
+
+    if(tab.url && tab.url.includes('linkedin.com/feed/')){
+      console.log('sending to LinkedIn: ', tab.url)
+      chrome.tabs.sendMessage(tabId,{
+        type: 'Job_Post',
+        name: 'LinkedIn',
+        url: tab.url
       })
     }
   }
