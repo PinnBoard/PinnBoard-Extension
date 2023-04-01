@@ -1,6 +1,6 @@
 // const btn=document.getElementById("segmented-like-button")
 const wait = (amount = 0) => new Promise(resolve => setTimeout(resolve, amount));
-let globalURL 
+let globalURL
 
 
 
@@ -27,9 +27,21 @@ const newYoutubeProfileLoaded = () => {
     bookmarkBtn.style.paddingLeft = "20px";
 
     youtubeBtnControls.appendChild(bookmarkBtn);
-    bookmarkBtn.addEventListener("click", addNewBookmarkEventHandler);
+    bookmarkBtn.addEventListener('click', ()=>{
+      const channelName = document.querySelector('.style-scope.ytd-c4-tabbed-header-renderer').innerText.split('\n')[0]
+      const channelDescription = document.querySelector('.style-scope.ytd-c4-tabbed-header-renderer').innerText.split('\n')[2]
+      const channelLogo = document.querySelector('.style-scope.ytd-c4-tabbed-header-renderer.no-transition').firstElementChild.src
+
+      const channelDetails = {
+        channelName: channelName,
+        channelDescription: channelDescription,
+        channelLogo: channelLogo,
+        channelUrl: globalURL
+      }
+      console.log(channelDetails)
+    })
+    
   }
-  // bookmarkBtn.addEventListener("click",()=> addEventListener(videoLink));
 };
 
 const newVideLoaded = () => {
@@ -42,9 +54,9 @@ const newVideLoaded = () => {
   if (!bookmarkBtnExists) {
     const bookmarkBtn = document.createElement("img");
 
-    
 
-    bookmarkBtn.src = "https://i.postimg.cc/nzXYHLFF/bookmark-PINN.png"; 
+
+    bookmarkBtn.src = "https://i.postimg.cc/nzXYHLFF/bookmark-PINN.png";
 
     bookmarkBtn.className = "ytp-button " + "bookmark-btn";
     bookmarkBtn.title = "Click to bookmark current timestamp";
@@ -55,7 +67,20 @@ const newVideLoaded = () => {
     bookmarkBtn.style.paddingLeft = "20px";
 
     youtubeBtnControls.appendChild(bookmarkBtn);
-    bookmarkBtn.addEventListener("click", addNewBookmarkEventHandler);
+    bookmarkBtn.addEventListener("click", () => {
+      const videoTitle = document.querySelectorAll('.style-scope.ytd-watch-metadata')[0].firstElementChild.innerText
+      const channelLogo = document.querySelectorAll('.style-scope.ytd-watch-metadata')[0].children[1].firstElementChild.firstElementChild.firstElementChild.firstChild.firstElementChild.src
+      const channelName = document.querySelectorAll('.style-scope.ytd-watch-metadata')[0].children[1].firstElementChild.firstElementChild.children[1].firstElementChild.innerText
+      const videoLink = globalURL
+
+      const videoDetails = {
+        videoTitle: videoTitle,
+        videoLink: videoLink,
+        channelName: channelName,
+        channelLogo: channelLogo
+      }
+      console.log(videoDetails)
+    });
   }
   // bookmarkBtn.addEventListener("click",()=> addEventListener(videoLink));
 };
@@ -65,10 +90,10 @@ const newLinkedinProfileLoaded = () => {
   if (!LinkedBookmarkBtn) {
     console.log("Linked Profile Loaded")
     // let parentDiv = document.querySelector(".pv-top-card-v2-ctas")
-    let parentDiv =document.querySelector(".ph5").lastElementChild
+    let parentDiv = document.querySelector(".ph5").lastElementChild
     let parentDivForImg = document.createElement("div")
 
-    if(parentDiv===null)parentDiv=document.querySelector(".ph5").lastChild.previousSibling
+    if (parentDiv === null) parentDiv = document.querySelector(".ph5").lastChild.previousSibling
     parentDiv.style.justifyContent = 'space-between'
     let bookmarkImg = document.createElement("img")
     bookmarkImg.src = "https://i.postimg.cc/nzXYHLFF/bookmark-PINN.png"
@@ -79,20 +104,20 @@ const newLinkedinProfileLoaded = () => {
     bookmarkImg.style.padding = "0.5rem 0.5rem 0.5rem 0.5rem"
     bookmarkImg.style.cursor = "pointer"
     bookmarkImg.className = "Linked-in-Bookmark-btn"
-   
+
     parentDivForImg.appendChild(bookmarkImg)
 
     parentDiv.appendChild(parentDivForImg)
-   
+
     bookmarkImg.addEventListener('click', () => {
       const profileImageUrl = document.querySelectorAll('.pv-top-card-profile-picture__image.pv-top-card-profile-picture__image--show.ember-view')[0].src;
       console.log(profileImageUrl)
-    let profileName = document.querySelector(".text-heading-xlarge.inline.t-24.v-align-middle.break-words")
-    console.log(profileName.innerText)
-    let profileURL = window.location.href;
-    console.log("profile URL" , profileURL)    
+      let profileName = document.querySelector(".text-heading-xlarge.inline.t-24.v-align-middle.break-words")
+      console.log(profileName.innerText)
+      let profileURL = window.location.href;
+      console.log("profile URL", profileURL)
     })
-    
+
   }
 }
 //Twitter Post
@@ -107,12 +132,12 @@ function addBookmark() {
     parentElement.insertBefore(bookmarkBtn, parentElement.children[3])
     let str = ''
     str = document.querySelectorAll('.css-901oao.r-1nao33i.r-37j5jr.r-1inkyih.r-16dba41.r-rjixqe.r-bcqeeo.r-bnwqim.r-qvutc0')[0].innerText
-    bookmarkBtn.src = "https://i.postimg.cc/nzXYHLFF/bookmark-PINN.png"; 
+    bookmarkBtn.src = "https://i.postimg.cc/nzXYHLFF/bookmark-PINN.png";
     bookmarkBtn.style.width = '50px'
     bookmarkBtn.style.cursor = 'pointer'
     bookmarkBtn.title = "Click to bookmark this tweet";
     bookmarkBtn.className = 'css-1dbjc4n r-18u37iz r-1h0z5md ' + 'bookmark-btn';
-    
+
     console.log('inserted')
     bookmarkBtn.addEventListener("click", () => {
       const newBookmark = {
@@ -243,7 +268,7 @@ go();
 
 // Message Listers
 chrome.runtime.onMessage.addListener((obj, sender, response) => {
-  const { type, videoId, videoLink, name, url} = obj;
+  const { type, videoId, videoLink, name, url } = obj;
   console.log(type);
   globalURL = url
   if (type === "NEW_YOUTUBE") {
@@ -253,10 +278,10 @@ chrome.runtime.onMessage.addListener((obj, sender, response) => {
   if (type === "NEW_YOUTUBE_PROFILE") {
     newYoutubeProfileLoaded();
   }
-  if(type === "Profile"){
+  if (type === "Profile") {
     newLinkedinProfileLoaded()
   }
-    if (type === "NEW_TWITTER_PROFILE") {
+  if (type === "NEW_TWITTER_PROFILE") {
     console.log("Something");
     newTwitterProfileLoaded();
   }
