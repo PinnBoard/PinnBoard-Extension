@@ -31,6 +31,44 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
         (res) => {
           console.log(res);
         }
+      )
+    }
+    if(tab.url && tab.url.includes('linkedin.com/in/')){
+      console.log('sending to Profile: ', tab.url);
+      chrome.tabs.sendMessage(tabId,{
+        type: 'Profile',
+        name: 'Profile',
+      })
+    }
+    else if(tab.url && tab.url.includes('linkedin.com/groups/')){
+      console.log('sending to Profile: ', tab.url);
+      chrome.tabs.sendMessage(tabId,{
+        type: 'Profile',
+        name: 'Profile',
+      })
+    }
+    else if(tab.url && tab.url.includes('linkedin.com/company')){
+      console.log('sending to Profile: ', tab.url);
+      chrome.tabs.sendMessage(tabId,{
+        type: 'Profile',
+        name: 'Profile',
+      })
+    }
+    if (activeTab.url && (/(https:\/\/twitter.com\/(?![a-zA-Z0-9_]+\/)([a-zA-Z0-9_]+))/).test(activeTab.url)) {
+      const queryParameters = activeTab.url;
+      const urlParameters = new URLSearchParams(queryParameters);
+      console.log(activeTab.url);
+      console.log("Tweet")
+      chrome.tabs.sendMessage(
+        activeTab.id,
+        {
+          type: "NEW_TWITTER_PROFILE",
+          videoId: urlParameters.get("v"),
+          videoLink: activeTab.url,
+        },
+        (res) => {
+          console.log(res);
+        }
       );
     }
 
@@ -38,7 +76,7 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
      if(tab.url && tab.url.includes('/status/')){
       console.log('sending to tweet: ', tab.url)
       chrome.tabs.sendMessage(tabId, {
-        type: "Tweet", 
+        type: "TWEET", 
         name: 'tweet',
         tweetLink: tab.url,
         url: tab.url
@@ -61,7 +99,8 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
   
   );
 
-  // 2. LinkedIn functions
+  // 2. Twitter Functions
+  
+  // 3. LinkedIn functions
 
-  // 3. Twitter Functions
 });
