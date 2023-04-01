@@ -20,7 +20,7 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
       );
     }
     // For profile visit
-    else{
+    if(activeTab.url && activeTab.url.includes('youtube.com/@')){
       chrome.tabs.sendMessage(
         activeTab.id,
         {
@@ -41,6 +41,18 @@ chrome.tabs.onUpdated.addListener((tabId, _, tab) => {
         type: "Tweet", 
         name: 'tweet',
         tweetLink: tab.url,
+        url: tab.url
+      })
+    }
+
+    //LinkedIn Feed
+
+    if(tab.url && tab.url.includes('linkedin.com/feed/')){
+      console.log('sending to LinkedIn: ', tab.url)
+      chrome.tabs.sendMessage(tabId,{
+        type: 'Job_Post',
+        name: 'LinkedIn',
+        url: tab.url
       })
     }
   }
