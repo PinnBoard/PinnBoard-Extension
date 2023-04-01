@@ -13,7 +13,7 @@ const newYoutubeProfileLoaded = () => {
   if (!bookmarkBtnExists) {
     const bookmarkBtn = document.createElement("img");
 
-    bookmarkBtn.src = chrome.runtime.getURL("assets/bookmark.png");
+    bookmarkBtn.src = "https://i.postimg.cc/nzXYHLFF/bookmark-PINN.png";
     bookmarkBtn.className = "ytp-button " + "bookmark-btn";
     bookmarkBtn.title = "Click to bookmark current timestamp";
 
@@ -40,7 +40,10 @@ const newVideLoaded = () => {
   if (!bookmarkBtnExists) {
     const bookmarkBtn = document.createElement("img");
 
-    bookmarkBtn.src = chrome.runtime.getURL("assets/bookmark.png");
+    
+
+    bookmarkBtn.src = "https://i.postimg.cc/nzXYHLFF/bookmark-PINN.png"; 
+
     bookmarkBtn.className = "ytp-button " + "bookmark-btn";
     bookmarkBtn.title = "Click to bookmark current timestamp";
 
@@ -96,7 +99,7 @@ function addBookmark() {
   if (!bookmarkBtnExists) {
     console.log("makinn");
     const bookmarkBtn = document.createElement("img");
-    bookmarkBtn.src = chrome.runtime.getURL("images/bookmarkPINN.png");
+    bookmarkBtn.src = "https://i.postimg.cc/nzXYHLFF/bookmark-PINN.png";
     bookmarkBtn.style.width = "50px";
     bookmarkBtn.style.cursor = "pointer";
     bookmarkBtn.title = "Click to bookmark this tweet";
